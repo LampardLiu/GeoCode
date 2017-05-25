@@ -1,0 +1,10 @@
+E:\source\GeoCode\GeoCode\bin\Release\GeoCode.config
+E:\source\GeoCode\GeoCode\bin\Release\GeoCode.XML
+E:\source\GeoCode\GeoCode\bin\Release\GeoCode.dll
+E:\source\GeoCode\GeoCode\bin\Release\GeoCode.pdb
+E:\source\GeoCode\GeoCode\bin\Release\My.Newtonsoft.Json.dll
+E:\source\GeoCode\GeoCode\bin\Release\NLog.dll
+E:\source\GeoCode\GeoCode\bin\Release\My.Newtonsoft.Json.xml
+E:\source\GeoCode\GeoCode\obj\Release\GeoCode.csprojResolveAssemblyReference.cache
+E:\source\GeoCode\GeoCode\obj\Release\GeoCode.dll
+E:\source\GeoCode\GeoCode\obj\Release\GeoCode.pdb

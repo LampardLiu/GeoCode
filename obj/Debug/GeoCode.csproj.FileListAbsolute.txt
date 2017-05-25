@@ -1,0 +1,7 @@
+E:\source\GeoCode\GeoCode\bin\Debug\GeoCode.XML
+E:\source\GeoCode\GeoCode\bin\Debug\GeoCode.dll
+E:\source\GeoCode\GeoCode\bin\Debug\GeoCode.pdb
+E:\source\GeoCode\GeoCode\obj\Debug\GeoCode.dll
+E:\source\GeoCode\GeoCode\obj\Debug\GeoCode.pdb
+E:\source\GeoCode\GeoCode\bin\Debug\My.Newtonsoft.Json.dll
+E:\source\GeoCode\GeoCode\bin\Debug\My.Newtonsoft.Json.xml

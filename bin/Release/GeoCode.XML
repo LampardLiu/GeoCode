@@ -1,0 +1,580 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GeoCode</name>
+    </assembly>
+    <members>
+        <member name="M:GeoCode.CacheDepend`1.#ctor(`0,System.String)">
+            <summary>
+            构造（指定缓存和缓存依赖文件）
+            </summary>
+            <param name="cache">缓存</param>
+            <param name="dependFilePath">依赖文件</param>
+        </member>
+        <member name="M:GeoCode.CacheDepend`1.StartWatchFile">
+            <summary>
+            监控文件
+            </summary>
+        </member>
+        <member name="M:GeoCode.CacheDepend`1.FileContentChaged(System.String)">
+            <summary>
+            判断文件是否改变，如果改变直接更新md5
+            </summary>
+            <param name="fileFullName">文件完整路径（包含路径和文件名以及文件后缀）</param>
+            <returns>true 表示改变，fasle表示没变</returns>
+        </member>
+        <member name="M:GeoCode.CacheDepend`1.GetFileMd5Value(System.String)">
+            <summary>
+            获取文件md5
+            </summary>
+            <param name="fileFullName">文件完整路径（包含路径和文件名以及文件后缀）</param>
+            <returns>文件的md5</returns>
+        </member>
+        <member name="E:GeoCode.CacheDepend`1.DependFiledChanged">
+            <summary>
+            依赖文件发生了变化
+            </summary>
+        </member>
+        <member name="T:GeoCode.TCacheArge`1">
+            <summary>
+            事件参数
+            </summary>
+            <typeparam name="TCache"></typeparam>
+        </member>
+        <member name="T:GeoCode.AddressResult">
+            <summary>
+            地址结果
+            </summary>
+        </member>
+        <member name="M:GeoCode.AddressResult.ToJson">
+            <summary>
+            转Json
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:GeoCode.AddressResult.Success">
+            <summary>
+            是否成功
+            </summary>
+        </member>
+        <member name="P:GeoCode.AddressResult.Message">
+            <summary>
+            异常消息
+            </summary>
+        </member>
+        <member name="P:GeoCode.AddressResult.ResultCode">
+            <summary>
+            结果码
+            </summary>
+        </member>
+        <member name="P:GeoCode.AddressResult.Address">
+            <summary>
+            地址描述
+            </summary>
+        </member>
+        <member name="P:GeoCode.AddressResult.Country">
+            <summary>
+            国家
+            </summary>
+        </member>
+        <member name="P:GeoCode.AddressResult.Province">
+            <summary>
+            省份
+            </summary>
+        </member>
+        <member name="P:GeoCode.AddressResult.City">
+            <summary>
+            城市
+            </summary>
+        </member>
+        <member name="P:GeoCode.AddressResult.District">
+            <summary>
+            区县
+            </summary>
+        </member>
+        <member name="P:GeoCode.AddressResult.Towncode">
+            <summary>
+            乡镇
+            </summary>
+        </member>
+        <member name="T:GeoCode.GeoCode">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:GeoCode.GeoCode.Gecode(System.String,System.String,System.String)">
+            <summary>
+            经纬度转地址
+            </summary>
+            <param name="lat">维度</param>
+            <param name="lng">精度</param>
+            <param name="mapType">
+            <para>地图类型</para>
+            <para>AMap:高德地图</para>
+            <para>QQMap:腾讯地图</para>
+            </param>       
+            <returns></returns>
+        </member>
+        <member name="M:GeoCode.GeoCode.Gecode(System.String,System.String)">
+            <summary>
+            经纬度转地址
+            </summary>
+            <param name="lngAndLat">经纬度使用“,”连接</param>
+            <param name="mapType">
+            <para>地图类型</para>
+            <para>AMap:高德地图</para>
+            <para>QQMap:腾讯地图</para>
+            </param>       
+            <returns></returns>
+        </member>
+        <member name="M:GeoCode.GeoCode.Gecodes(System.Collections.Generic.Dictionary{System.String,System.String},System.String)">
+            <summary>
+            批量解析地址（实质是循环解析，返回结果，比较耗时）
+            </summary>
+            <param name="keyAndLngLat">key和lanlat，lng和lat之间使用英文逗号分隔</param>
+            <param name="mapType">
+            <para>地图类型</para>
+            <para>AMap:高德地图</para>
+            <para>QQMap:腾讯地图</para>
+            </param>       
+            <returns>解析结果</returns>
+            <exception cref="!:Exception，解析失败返回异常"></exception>
+        </member>
+        <member name="M:GeoCode.GeoCode.Gecodes(System.Collections.Generic.Dictionary{System.String,System.String[]},System.String)">
+            <summary>
+            批量解析地址（实质是循环解析，返回结果，比较耗时）
+            </summary>
+            <param name="keyAndLngLat">key和lanlat，lng lat数组</param>
+            <param name="mapType">
+            <para>地图类型</para>
+            <para>AMap:高德地图</para>
+            <para>QQMap:腾讯地图</para>
+            </param>       
+            <returns>解析结果</returns>
+            <exception cref="!:Exception，解析失败返回异常"></exception>
+        </member>
+        <member name="F:GeoCode.GeoCodeConfigCache.GeoCodeCache">
+            <summary>
+            存储对象的字典 key：地图类型，Value：配置对象
+            </summary>
+        </member>
+        <member name="M:GeoCode.GeoCodeConfigCache.AddConfig(System.String,GeoCode.IGeoCodeConfig)">
+            <summary>
+            
+            </summary>
+            <param name="maptype"></param>
+            <param name="config"></param>
+        </member>
+        <member name="M:GeoCode.GeoCodeConfigCache.RemoveConfig(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="maptype"></param>
+        </member>
+        <member name="M:GeoCode.GeoCodeConfigCache.GetConfig(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="maptype"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GeoCode.GeoCodeConfigManager.GetConfig">
+            <summary>
+            获取配置
+            </summary>
+            <returns></returns>       
+        </member>
+        <member name="M:GeoCode.GeoCodeConfigManager.GetConfig(System.String)">
+            <summary>
+            获取配置
+            </summary>
+            <param name="mapType">地图类型 AMap；QQMap；BMap</param>
+            <returns></returns>
+        </member>
+        <member name="M:GeoCode.GeoCodeConfigManager.SetUnAble(GeoCode.IGeoCodeConfig)">
+            <summary>
+            设置某个地图的Key不可用
+            </summary>
+            <param name="config"></param>
+        </member>
+        <member name="M:GeoCode.GeoCodeConfigManager.AddUsedCount(GeoCode.IGeoCodeConfig,System.Int32)">
+            <summary>
+            追加已经使用次数
+            </summary>
+            <param name="config"></param>
+            <param name="appendCount"></param>
+        </member>
+        <member name="M:GeoCode.GeoCodeConfigManager.GetConfig(System.Collections.Generic.List{System.String},System.String)">
+            <summary>
+            获取配置
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:GeoCode.GeoCodeConfigManager.ReLoadConfig(System.String)">
+            <summary>
+            重载配置
+            </summary>
+            <param name="mapTypes"></param>
+            <param name="mapType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GeoCode.GeoCodeConfigManager.ReInitKeys">
+            <summary>
+            重置Keys
+            </summary>
+            <param name="mapType"></param>
+        </member>
+        <member name="M:GeoCode.GeoCodeConfigManager.GetGeoCodeCofnigInstance(System.String)">
+            <summary>
+            获取地图配置类实例
+            </summary>
+            <param name="mapType"></param>
+            <returns></returns>
+        </member>
+        <member name="T:GeoCode.GeoCodeConfigQQMap">
+            <summary>
+            腾讯地图解析规则
+            </summary>
+        </member>
+        <member name="M:GeoCode.IGeoCodeConfig.LoadConfig(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            加载配置信息
+            </summary>
+            <param name="url">URL模板（包含未替换参数的url）</param>
+            <param name="key">地图Key的Value</param>
+            <param name="usedCount">已用次数</param>
+            <param name="maxCount">最大支持次数</param>
+        </member>
+        <member name="M:GeoCode.IGeoCodeConfig.ResultFormat(System.String)">
+            <summary>
+            解析结果
+            </summary>
+            <param name="address">webAPI的结果（JSON格式）</param>
+            <returns>解析结果对象</returns>
+        </member>
+        <member name="M:GeoCode.IGeoCodeConfig.GetRequestUrl(System.String,System.String)">
+            <summary>
+            获取请求服务的url
+            </summary>
+            <param name="lat">纬度</param>
+            <param name="lng">精度</param>
+            <returns></returns>
+        </member>
+        <member name="E:GeoCode.IGeoCodeConfig.KeyUsedOver">
+            <summary>
+            Key已经被使用超过了限制
+            </summary>
+        </member>
+        <member name="E:GeoCode.IGeoCodeConfig.KeyOneSecondUsedOver">
+            <summary>
+            每秒使用超出限制
+            </summary>
+        </member>
+        <member name="P:GeoCode.IGeoCodeConfig.Url">
+            <summary>
+            URL模板（包含未替换参数的url）
+            </summary>
+        </member>
+        <member name="P:GeoCode.IGeoCodeConfig.Key">
+            <summary>
+            地图Key的Value
+            </summary>
+        </member>
+        <member name="P:GeoCode.IGeoCodeConfig.UsedCount">
+            <summary>
+            已用次数
+            </summary>
+        </member>
+        <member name="P:GeoCode.IGeoCodeConfig.MaxCount">
+            <summary>
+            最大支持次数
+            </summary>
+        </member>
+        <member name="P:GeoCode.IGeoCodeConfig.MapType">
+            <summary>
+            地图类型
+            </summary>
+        </member>
+        <member name="M:GeoCode.GeoCodeConfigQQMap.ResultFormat(System.String)">
+            <summary>
+            解析结果
+            </summary>
+            <param name="address">webAPI的结果（JSON格式）</param>
+            <returns>解析结果对象</returns>
+        </member>
+        <member name="M:GeoCode.GeoCodeConfigQQMap.GetRequestUrl(System.String,System.String)">
+            <summary>
+            获取请求服务的url
+            </summary>
+            <param name="lat">纬度</param>
+            <param name="lng">精度</param>
+            <returns></returns>
+        </member>
+        <member name="M:GeoCode.GeoCodeConfigQQMap.LoadConfig(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            加载配置信息
+            </summary>
+            <param name="url"></param>
+            <param name="key"></param>
+            <param name="usedCount"></param>
+            <param name="maxCount"></param>
+        </member>
+        <member name="P:GeoCode.GeoCodeConfigQQMap.Url">
+            <summary>
+            URL模板（包含未替换参数的url）
+            </summary>
+        </member>
+        <member name="P:GeoCode.GeoCodeConfigQQMap.Key">
+            <summary>
+            地图Key的Value
+            </summary>
+        </member>
+        <member name="P:GeoCode.GeoCodeConfigQQMap.UsedCount">
+            <summary>
+            已用次数
+            </summary>
+        </member>
+        <member name="P:GeoCode.GeoCodeConfigQQMap.MaxCount">
+            <summary>
+            最大支持次数
+            </summary>
+        </member>
+        <member name="E:GeoCode.GeoCodeConfigQQMap.KeyUsedOver">
+            <summary>
+            Key已经被使用超过了限制
+            </summary>
+        </member>
+        <member name="E:GeoCode.GeoCodeConfigQQMap.KeyOneSecondUsedOver">
+            <summary>
+            每秒使用超出限制
+            </summary>
+        </member>
+        <member name="M:GeoCode.GeoCodeConfigAMap.ResultFormat(System.String)">
+            <summary>
+            解析结果
+            </summary>
+            <param name="address">webAPI的结果（JSON格式）</param>
+            <returns>解析结果对象</returns>
+        </member>
+        <member name="M:GeoCode.GeoCodeConfigAMap.GetRequestUrl(System.String,System.String)">
+            <summary>
+            获取请求服务的url
+            </summary>
+            <param name="lat">纬度</param>
+            <param name="lng">精度</param>
+            <returns></returns>
+        </member>
+        <member name="M:GeoCode.GeoCodeConfigAMap.LoadConfig(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            加载配置信息
+            </summary>
+            <param name="url"></param>
+            <param name="key"></param>
+            <param name="usedCount"></param>
+            <param name="maxCount"></param>
+            <param name="useDate"></param>
+        </member>
+        <member name="P:GeoCode.GeoCodeConfigAMap.Url">
+            <summary>
+            URL模板（包含未替换参数的url）
+            </summary>
+        </member>
+        <member name="P:GeoCode.GeoCodeConfigAMap.Key">
+            <summary>
+            地图Key的Value
+            </summary>
+        </member>
+        <member name="P:GeoCode.GeoCodeConfigAMap.UsedCount">
+            <summary>
+            已用次数
+            </summary>
+        </member>
+        <member name="P:GeoCode.GeoCodeConfigAMap.MaxCount">
+            <summary>
+            最大支持次数
+            </summary>
+        </member>
+        <member name="E:GeoCode.GeoCodeConfigAMap.KeyUsedOver">
+            <summary>
+            Key已经被使用超过了限制
+            </summary>
+        </member>
+        <member name="E:GeoCode.GeoCodeConfigAMap.KeyOneSecondUsedOver">
+            <summary>
+            每秒使用超出限制
+            </summary>
+        </member>
+        <member name="T:GeoCode.LoggerManager">
+            <summary>
+            日志类
+            </summary>
+        </member>
+        <member name="F:GeoCode.LoggerManager.Logger">
+            <summary>
+            Nlog操作对象
+            </summary>
+        </member>
+        <member name="M:GeoCode.LoggerManager.LogTimeInfo(System.Action,System.String,System.Object[])">
+            <summary>
+            记录方法调用时间和参数信息
+            </summary>
+            <param name="action">执行的行为</param>
+            <param name="parameters">参数名，将所有参数使用逗号分隔</param>
+            <param name="arges">需要记录的参数</param>
+        </member>
+        <member name="M:GeoCode.Tool.UsedDataManager.SetUseCount(System.String,System.Int32)">
+            <summary>
+            设置用户使用次数
+            </summary>
+            <param name="key">key</param>
+            <param name="count">使用次数</param>
+        </member>
+        <member name="M:GeoCode.Tool.UsedDataManager.GetUsedCount(System.String)">
+            <summary>
+            获取用户使用次数
+            </summary>
+            <param name="key">key</param>
+            <returns>使用次数</returns>
+        </member>
+        <member name="M:GeoCode.Tool.UsedDataManager.WriteAndReLoadDataFile(System.String,System.String)">
+            <summary>
+            写文件并且将新的内容重新加载,为了减少文件的打开和关闭次数，将两个行为合并在一起
+            </summary>
+            <param name="key"></param>
+            <param name="filename"></param>
+        </member>
+        <member name="M:GeoCode.Tool.UsedDataManager.FileToDictiory(System.String)">
+            <summary>
+            将文件内容转存储到内存字段中
+            </summary>
+            <param name="file"></param>
+        </member>
+        <member name="M:GeoCode.Tool.UsedDataManager.FileContentToDictiory(System.String)">
+            <summary>
+            将文件内容转存储到内存字段中
+            </summary>
+            <param name="content"></param>
+        </member>
+        <member name="M:GeoCode.Tool.UsedDataManager.FlushDataToFile(System.String)">
+            <summary>
+            将内存中的数据更新到硬盘
+            </summary>
+            <param name="filename"></param>
+        </member>
+        <member name="M:GeoCode.Tool.UsedDataManager.CycleFlushDataToFile">
+            <summary>
+            循环刷新数据
+            </summary>
+        </member>
+        <member name="P:GeoCode.Tool.UsedDataManager.IsNewDay">
+            <summary>
+            是否为新的一天
+            </summary>
+        </member>
+        <member name="M:GeoCode.GeoCodeXmlHelper.#ctor">
+            <summary>
+            构造函数，默认加载程序集目录下的GeoCode.XML
+            </summary>
+        </member>
+        <member name="M:GeoCode.GeoCodeXmlHelper.#ctor(System.String)">
+            <summary>
+            构造函数，
+            </summary>
+            <param name="xmlFilePath">加载xml文件的路径</param>
+        </member>
+        <member name="M:GeoCode.GeoCodeXmlHelper.SetMapType(System.String)">
+            <summary>
+            设置地图类型
+            </summary>
+            <param name="mapType"></param>
+        </member>
+        <member name="M:GeoCode.GeoCodeXmlHelper.GetGeocodeMaps">
+            <summary>
+            获取已配置的解析地图列表
+            </summary>
+            <returns>已配地图类型</returns>
+        </member>
+        <member name="M:GeoCode.GeoCodeXmlHelper.GetMapUrlFormat">
+            <summary>
+            获取该地图的解析URL格式
+            </summary>
+            <param name="maptype">地图类型（找到对应的地图配置节点）</param>
+            <returns>urlFormat</returns>
+        </member>
+        <member name="M:GeoCode.GeoCodeXmlHelper.GetKey">
+            <summary>
+            获取该地图的Key
+            </summary>
+            <param name="maptype">地图类型（找到对应的地图配置节点)</param>
+            <returns></returns>
+        </member>
+        <member name="M:GeoCode.GeoCodeXmlHelper.GetMaxCount">
+            <summary>
+            获取该地图的MaxCount
+            </summary>
+            <param name="maptype">地图类型（找到对应的地图配置节点)</param>
+            <returns></returns>
+        </member>
+        <member name="M:GeoCode.GeoCodeXmlHelper.SetKeyAttribute(System.String,System.String)">
+            <summary>
+            设置属性值
+            </summary>
+            <param name="maptype">地图类型（找到对应的地图配置节点)</param>
+            <param name="attribute">属性名称</param>
+            <param name="value">属性值</param>
+        </member>
+        <member name="M:GeoCode.GeoCodeXmlHelper.SetKeyAttribute(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            设置属性值
+            </summary>
+            <param name="attributeValues">属性和值的字典</param>
+        </member>
+        <member name="M:GeoCode.GeoCodeXmlHelper.SetKeyAttribute(System.Xml.XmlNodeList,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            设置属性值
+            </summary>
+            <param name="nodelist"></param>
+            <param name="attributeValues"></param>
+        </member>
+        <member name="M:GeoCode.GeoCodeXmlHelper.ClearNodes">
+            <summary>
+            清除节点
+            </summary>
+        </member>
+        <member name="M:GeoCode.GeoCodeXmlHelper.GetMapWillAbleKeyNodeList">
+            <summary>
+            获取已经设置不可用但是应该可用的节点
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:GeoCode.GeoCodeXmlHelper.GetMapNode(System.String)">
+            <summary>
+            获取Map地图配置节点
+            </summary>
+            <param name="nodeName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GeoCode.GeoCodeXmlHelper.GetMapKeyNode(System.Xml.XmlNode)">
+            <summary>
+            获取地图节点下可用的Key节点
+            </summary>
+            <param name="mapNode"></param>
+            <returns></returns>
+        </member>
+        <member name="P:GeoCode.GeoCodeXmlHelper.MapType">
+            <summary>
+            当前操作的地图类型
+            </summary>
+        </member>
+        <member name="P:GeoCode.GeoCodeXmlHelper.MapNode">
+             <summary>
+            配置的地图节点对象
+             </summary>
+        </member>
+        <member name="P:GeoCode.GeoCodeXmlHelper.MapKeyNode">
+            <summary>
+            地图节点下可用key的节点
+            </summary>
+        </member>
+    </members>
+</doc>

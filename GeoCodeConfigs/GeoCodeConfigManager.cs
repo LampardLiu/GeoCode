@@ -66,7 +66,7 @@ namespace GeoCode
             }
             else
             {
-                Tool.UsedDataManager.SetUseCount(config.Key, (config.UsedCount += appendCount));
+                //Tool.UsedDataManager.SetUseCount(config.Key, (config.UsedCount += appendCount), config.UsedCount == config.MaxCount);
             }
         }
 
@@ -85,22 +85,16 @@ namespace GeoCode
                 //设置地图类型
                 xmlHelper.SetMapType(mapType);
                 config = cache.GetConfig(mapType);
+                //没缓存
                 if (config == null)
                 {
-                    if (Tool.UsedDataManager.IsNewDay)
-                    {
-                        ReInitKeys();
-                    }
-                    else
-                    {
-                        config = GetGeoCodeCofnigInstance(mapType);
-                        var key = xmlHelper.GetKey();
-                        config.LoadConfig(xmlHelper.GetMapUrlFormat(),
-                                            key,
-                                            Tool.UsedDataManager.GetUsedCount(key),
-                                            xmlHelper.GetMaxCount());
-                        cache.AddConfig(mapType, config);
-                    }
+                    config = GetGeoCodeCofnigInstance(mapType);
+                    var key = xmlHelper.GetKey();
+                    config.LoadConfig(xmlHelper.GetMapUrlFormat(),
+                                        key,
+                                        0,// Tool.UsedDataManager.GetUsedCount(key),
+                                        xmlHelper.GetMaxCount());
+                    cache.AddConfig(mapType, config);
                 }
                 config.KeyUsedOver += () =>
                 {

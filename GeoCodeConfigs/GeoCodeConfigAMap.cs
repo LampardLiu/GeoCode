@@ -67,11 +67,11 @@ namespace GeoCode
                     addressResult.ResultCode = result.infocode;
                     addressResult.Message = result.info;
                     addressResult.Address = result.regeocode.formatted_address;
-                    addressResult.City = result.regeocode.addressComponent.city;
-                    addressResult.Country = result.regeocode.addressComponent.country;
-                    addressResult.District = result.regeocode.addressComponent.district;
-                    addressResult.Province = result.regeocode.addressComponent.province;
-                    addressResult.Towncode = result.regeocode.addressComponent.towncode;
+                    addressResult.City = result.regeocode.addressComponent.city.ToString();
+                    addressResult.Country = result.regeocode.addressComponent.country.ToString();
+                    addressResult.District = result.regeocode.addressComponent.district.ToString();
+                    addressResult.Province = result.regeocode.addressComponent.province.ToString();
+                    addressResult.Towncode = result.regeocode.addressComponent.towncode.ToString();
                 }
             }
             catch (Exception ex)
@@ -88,7 +88,10 @@ namespace GeoCode
         /// <returns></returns>
         public Uri GetRequestUrl(string lat, string lng)
         {
-            return new Uri(string.Format(Url, lng + "," + lat, Key) + "&t=" + DateTime.Now.Ticks.ToString());
+            var cood = GpsCood.GpsCoodCorrect.Convert(double.Parse(lat), double.Parse(lng));
+            return new Uri(string.Format(Url, cood.Longitude + "," + cood.Latitude, Key) + "&t=" + DateTime.Now.Ticks.ToString());
+            //  return new Uri(string.Format(Url, lng + "," + lat, Key) + "&t=" + DateTime.Now.Ticks.ToString());
+
         }
 
         private bool CheckResult(LocationResult result)
@@ -160,12 +163,12 @@ namespace GeoCode
         {
             public string country { get; set; }
             public string province { get; set; }
-            public string city { get; set; }
-            public string citycode { get; set; }
-            public string district { get; set; }
-            public string adcode { get; set; }
-            public string township { get; set; }
-            public string towncode { get; set; }
+            public object city { get; set; }
+            public object citycode { get; set; }
+            public object district { get; set; }
+            public object adcode { get; set; }
+            public object township { get; set; }
+            public object towncode { get; set; }
         }
 
 

@@ -1,7 +1,7 @@
 ﻿/*
  * Target:配置文件读取帮助类
  * Date：2017年5月11日
- * Auto：刘会东
+ * Author：刘会东
  * TODO：重构GetAttribute方法，代替之前的获取各个属性值的方法
  */
 using System;
@@ -19,7 +19,7 @@ namespace GeoCode
         readonly string xmlFilePath = System.AppDomain.CurrentDomain.BaseDirectory + "GeoCode.config";
         const string geocodemapsXPath = "/geocode/geocodemaps/geocodemap";
         const string mapXPath = "/geocode/maps/map[@name='{0}']";
-        const string mapKeyXpath = "keys/key[@able='true']";
+        const string mapKeyXpath = "keys/key";
         //xml文档对象
         private XmlDocument xmldocment = new XmlDocument();
         //当前操作的地图类型
@@ -203,7 +203,8 @@ namespace GeoCode
             return this.MapNode.SelectNodes("keys/key");
         }
 
-        internal string GetXmlFileName() {
+        internal string GetXmlFileName()
+        {
             return this.xmlFilePath;
         }
 

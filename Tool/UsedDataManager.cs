@@ -7,16 +7,19 @@ using System.Threading;
 
 namespace GeoCode.Tool
 {
-    public class UsedDataManager
+    /// <summary>
+    /// 
+    /// </summary>
+    internal class UsedDataManager
     {
         private static readonly string DataFilePath = System.AppDomain.CurrentDomain.BaseDirectory + "geocodedata\\";
-        private static Dictionary<string, int> KeyUsedCount = new Dictionary<string, int>();
+        private static Dictionary<string, KeyUserInfo> KeyUsedCount = new Dictionary<string, KeyUserInfo>();
         private static Thread cycleThread;
-        private static TimeSpan CycleFlushInterval = TimeSpan.FromSeconds(10);
+        private static TimeSpan CycleFlushInterval = TimeSpan.FromMinutes(10);
         /// <summary>
         /// 是否为新的一天
         /// </summary>
-        public static bool IsNewDay
+        internal static bool IsNewDay
         {
             get
             {
@@ -52,11 +55,12 @@ namespace GeoCode.Tool
         /// </summary>
         /// <param name="key">key</param>
         /// <param name="count">使用次数</param>
-        internal static void SetUseCount(string key, int count)
+        internal static void SetUseCount(string key, int count, bool able)
         {
             if (KeyUsedCount.Keys.Contains(key))
             {
-                KeyUsedCount[key] = count;
+                KeyUsedCount[key].UsedCount = count;
+                KeyUsedCount[key].Able = able;
             }
         }
 
@@ -71,7 +75,7 @@ namespace GeoCode.Tool
             {
                 WriteAndReLoadDataFile(key, DataFilePath + DateTime.Now.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.CurrentCulture) + ".dat");
             }
-            return KeyUsedCount[key];
+            return KeyUsedCount[key].UsedCount;
         }
 
         /// <summary>
@@ -83,10 +87,9 @@ namespace GeoCode.Tool
         {
             lock (KeyUsedCount)
             {
-                try
+                using (FileStream fs = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read))
                 {
-                    FileInfo fileInfo = new FileInfo(filename);
-                    using (FileStream fs = fileInfo.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.Read))
+                    try
                     {
                         var buffer = new byte[fs.Length];
                         if (fs.CanRead)
@@ -95,17 +98,21 @@ namespace GeoCode.Tool
                         //将文件内容对应到内存对象中
                         FileContentToDictiory(content);
                         //添加新的key
-                        KeyUsedCount.Add(key, 0);
-                        content += "\r\n" + key + " 0";
+                        KeyUsedCount.Add(key, new KeyUserInfo() { Able = true, UsedCount = 0 });
+                        content += "\r\n" + key + " 0 " + "True";
                         var writebuffer = Encoding.UTF8.GetBytes(content);
                         fs.Write(writebuffer, 0, writebuffer.Length);
                         fs.Flush();
-                        fs.Close();
                     }
-                }
-                catch (Exception ex)
-                {
-                    LoggerManager.Logger.Error(ex);
+                    catch (Exception ex)
+                    {
+                        LoggerManager.Logger.Error(ex);
+                    }
+                    finally
+                    {
+                        fs.Close();
+                        fs.Dispose();
+                    }
                 }
             }
         }
@@ -118,36 +125,32 @@ namespace GeoCode.Tool
         {
             if (File.Exists(filename))
             {
-                using (FileStream fs = new FileStream(filename, FileMode.Open))
+                byte[] buffer = null;
+                lock (KeyUsedCount)
                 {
-                    var buffer = new byte[fs.Length];
-                    fs.Read(buffer, 0, buffer.Length);
-                    fs.Close();
-                    var content = Encoding.UTF8.GetString(buffer);
-                    var keyList = content.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
-                    foreach (string item in keyList)
+                    using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
                     {
-                        if (item.StartsWith("#"))
-                            continue;
-                        var keyAndCountList = item.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                        if (keyAndCountList.Length != 2) continue;
-                        int count;
-                        if (int.TryParse(keyAndCountList[1], out count))
+                        try
                         {
-                            if (KeyUsedCount.ContainsKey(keyAndCountList[0]))
-                            {
-                                KeyUsedCount[keyAndCountList[0]] = count;
-                            }
-                            else
-                            {
-                                KeyUsedCount.Add(keyAndCountList[0], count);
-                            }
+                            buffer = new byte[fs.Length];
+                            fs.Read(buffer, 0, buffer.Length);
+                        }
+                        catch (Exception ex)
+                        {
+                            LoggerManager.Logger.Error(ex);
+                        }
+                        finally
+                        {
+                            fs.Close();
+                            fs.Dispose();
                         }
                     }
                 }
+                if (buffer == null) return;
+                var content = Encoding.UTF8.GetString(buffer);
+                FileContentToDictiory(content);
             }
         }
-
 
         /// <summary>
         /// 将文件内容转存储到内存字段中
@@ -161,17 +164,18 @@ namespace GeoCode.Tool
                 if (item.StartsWith("#"))
                     continue;
                 var keyAndCountList = item.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (keyAndCountList.Length != 2) continue;
+                if (keyAndCountList.Length != 3) continue;
                 int count;
                 if (int.TryParse(keyAndCountList[1], out count))
                 {
                     if (KeyUsedCount.ContainsKey(keyAndCountList[0]))
                     {
-                        KeyUsedCount[keyAndCountList[0]] = count;
+                        KeyUsedCount[keyAndCountList[0]].UsedCount = count;
+                        KeyUsedCount[keyAndCountList[0]].Able = bool.Parse(keyAndCountList[2]);
                     }
                     else
                     {
-                        KeyUsedCount.Add(keyAndCountList[0], count);
+                        KeyUsedCount.Add(keyAndCountList[0], new KeyUserInfo() { Able = bool.Parse(keyAndCountList[2]), UsedCount = count });
                     }
                 }
             }
@@ -183,31 +187,40 @@ namespace GeoCode.Tool
         /// <param name="filename"></param>
         private static void FlushDataToFile(string filename)
         {
+            if (KeyUsedCount.Count == 0) return;
             lock (KeyUsedCount)
             {
-                try
+                using (FileStream fs = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read))
                 {
-                    FileInfo fileInfo = new FileInfo(filename);
-                    using (FileStream fs = fileInfo.OpenWrite())
+                    try
                     {
                         StringBuilder sb = new StringBuilder();
                         foreach (var key in KeyUsedCount.Keys)
                         {
                             sb.Append(key);
                             sb.Append(" ");
-                            sb.Append(KeyUsedCount[key]);
+                            sb.Append(KeyUsedCount[key].UsedCount);
+                            sb.Append(" ");
+                            sb.Append(KeyUsedCount[key].Able ? "True\r\n" : "False\r\n");
                         }
                         var buffer = Encoding.UTF8.GetBytes(sb.ToString());
                         sb.Clear();
                         sb = null;
+                        fs.Seek(0, SeekOrigin.Begin);
+                        fs.SetLength(0);
                         fs.Write(buffer, 0, buffer.Length);
                         fs.Flush();
-                        fs.Close();
+
                     }
-                }
-                catch (Exception ex)
-                {
-                    LoggerManager.Logger.Error(ex);
+                    catch (Exception ex)
+                    {
+                        LoggerManager.Logger.Error(ex);
+                    }
+                    finally
+                    {
+                        fs.Close();
+                        fs.Dispose();
+                    }
                 }
             }
         }
@@ -234,6 +247,21 @@ namespace GeoCode.Tool
             }
             if (cycleThread.ThreadState != ThreadState.Running)
                 cycleThread.Start();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        internal class KeyUserInfo
+        {
+            /// <summary>
+            /// 使用次数
+            /// </summary>
+            internal int UsedCount { get; set; }
+            /// <summary>
+            /// 是否可用
+            /// </summary>
+            internal bool Able { get; set; }
         }
     }
 }

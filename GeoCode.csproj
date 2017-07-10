@@ -60,6 +60,8 @@
     <Compile Include="GeoCodeConfigs\GeoCodeConfigQQMap.cs" />
     <Compile Include="GeoCodeConfigs\IGeoCodeConfig.cs" />
     <Compile Include="GeoCodeConfigs\GeoCodeConfigAMap.cs" />
+    <Compile Include="GpsCood\GpsCoodCorrect.cs" />
+    <Compile Include="GpsCood\GpsOffset.cs" />
     <Compile Include="LoggerManager.cs" />
     <Compile Include="Tool\UsedDataManager.cs" />
     <Compile Include="XMLHelper\GeoCodeXmlHelper.cs" />
@@ -73,7 +75,9 @@
     </None>
     <Content Include="Lib\My.Newtonsoft.Json.dll" />
     <Content Include="Lib\My.Newtonsoft.Json.xml" />
-    <None Include="NLog.config" />
+    <None Include="NLog.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

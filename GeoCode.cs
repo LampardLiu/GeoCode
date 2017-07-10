@@ -22,9 +22,9 @@ namespace GeoCode
         /// <para>QQMap:腾讯地图</para>
         /// </param>       
         /// <returns></returns>
-        public static AddressResult Gecode(string lng, string lat, string mapType = "AMap")
+        public static AddressResult Gecode(string lng, string lat, string mapType)
         {
-            IGeoCodeConfig config = GeoCodeConfigManager.GetConfig(mapType);
+            IGeoCodeConfig config = GeoCodeConfigManager.GetConfig(mapType.ToString());
             AddressResult address = null;
             LoggerManager.LogTimeInfo(() =>
             {
@@ -124,5 +124,37 @@ namespace GeoCode
             }, "keyAndLngLat,mapType", keyAndLngLat, mapType);
             return result;
         }
+    }
+
+    public enum MapType
+    {
+        /// <summary>
+        /// 高德地图
+        /// </summary>
+        AMap = 0,
+        /// <summary>
+        /// 腾讯地图
+        /// </summary>
+        QQMap,
+        /// <summary>
+        /// 百度地图（暂未支持）
+        /// </summary>
+        BMap,
+        /// <summary>
+        /// BingMap（暂未支持）
+        /// </summary>
+        BingMap,
+        /// <summary>
+        /// Google地图（暂未支持）
+        /// </summary>
+        GoogleMap,
+        /// <summary>
+        /// 经纬度地图（暂未支持）
+        /// </summary>
+        GPSMap,
+        /// <summary>
+        /// 搜狗地图（暂未支持）
+        /// </summary>
+        SougouMap
     }
 }

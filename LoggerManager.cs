@@ -16,7 +16,7 @@ namespace GeoCode
         /// <summary>
         /// Nlog操作对象
         /// </summary>
-        public static Logger Logger = LogManager.GetCurrentClassLogger();
+        public static Logger Logger = LogManager.GetLogger("GeoCode");
         static bool IsLoggerInfo = true;
         static StringBuilder infoSb = new StringBuilder();
         private LoggerManager()

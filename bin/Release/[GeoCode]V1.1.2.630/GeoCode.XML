@@ -102,7 +102,7 @@
             
             </summary>
         </member>
-        <member name="M:GeoCode.GeoCode.Gecode(System.String,System.String,System.String)">
+        <member name="M:GeoCode.GeoCode.Gecode(System.String,System.String,GeoCode.MapType)">
             <summary>
             经纬度转地址
             </summary>
@@ -115,7 +115,7 @@
             </param>       
             <returns></returns>
         </member>
-        <member name="M:GeoCode.GeoCode.Gecode(System.String,System.String)">
+        <member name="M:GeoCode.GeoCode.Gecode(System.String,GeoCode.MapType)">
             <summary>
             经纬度转地址
             </summary>
@@ -127,7 +127,7 @@
             </param>       
             <returns></returns>
         </member>
-        <member name="M:GeoCode.GeoCode.Gecodes(System.Collections.Generic.Dictionary{System.String,System.String},System.String)">
+        <member name="M:GeoCode.GeoCode.Gecodes(System.Collections.Generic.Dictionary{System.String,System.String},GeoCode.MapType)">
             <summary>
             批量解析地址（实质是循环解析，返回结果，比较耗时）
             </summary>
@@ -140,7 +140,7 @@
             <returns>解析结果</returns>
             <exception cref="!:Exception，解析失败返回异常"></exception>
         </member>
-        <member name="M:GeoCode.GeoCode.Gecodes(System.Collections.Generic.Dictionary{System.String,System.String[]},System.String)">
+        <member name="M:GeoCode.GeoCode.Gecodes(System.Collections.Generic.Dictionary{System.String,System.String[]},GeoCode.MapType)">
             <summary>
             批量解析地址（实质是循环解析，返回结果，比较耗时）
             </summary>

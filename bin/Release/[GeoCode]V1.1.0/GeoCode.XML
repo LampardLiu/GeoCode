@@ -153,41 +153,6 @@
             <returns>解析结果</returns>
             <exception cref="!:Exception，解析失败返回异常"></exception>
         </member>
-        <member name="F:GeoCode.MapType.AMap">
-            <summary>
-            高德地图
-            </summary>
-        </member>
-        <member name="F:GeoCode.MapType.QQMap">
-            <summary>
-            腾讯地图
-            </summary>
-        </member>
-        <member name="F:GeoCode.MapType.BMap">
-            <summary>
-            百度地图（暂未支持）
-            </summary>
-        </member>
-        <member name="F:GeoCode.MapType.BingMap">
-            <summary>
-            BingMap（暂未支持）
-            </summary>
-        </member>
-        <member name="F:GeoCode.MapType.GoogleMap">
-            <summary>
-            Google地图（暂未支持）
-            </summary>
-        </member>
-        <member name="F:GeoCode.MapType.GPSMap">
-            <summary>
-            经纬度地图（暂未支持）
-            </summary>
-        </member>
-        <member name="F:GeoCode.MapType.SougouMap">
-            <summary>
-            搜狗地图（暂未支持）
-            </summary>
-        </member>
         <member name="F:GeoCode.GeoCodeConfigCache.GeoCodeCache">
             <summary>
             存储对象的字典 key：地图类型，Value：配置对象
@@ -439,66 +404,6 @@
             每秒使用超出限制
             </summary>
         </member>
-        <member name="T:GeoCode.GpsCood.GpsCoodCorrect">
-            <summary>
-            地图国标转换
-            </summary>
-        </member>
-        <member name="M:GeoCode.GpsCood.GpsCoodCorrect.Convert(System.Double,System.Double)">
-            <summary>
-            转换偏移量
-            </summary>
-            <param name="lat">纬度</param>
-            <param name="lon">经度</param>
-            <returns>加偏后数据</returns>
-        </member>
-        <member name="T:GeoCode.GpsCood.OffsetCoord">
-            <summary>
-            设置1字节对齐
-            </summary>
-        </member>
-        <member name="P:GeoCode.GpsCood.OffsetCoord.Latitude">
-            <summary>
-            纬度
-            </summary>
-        </member>
-        <member name="P:GeoCode.GpsCood.OffsetCoord.Longitude">
-            <summary>
-            经度
-            </summary>
-        </member>
-        <member name="M:GeoCode.GpsCood.GpsOffset.EncryptPoint(System.Decimal,System.Decimal)">
-            <summary>
-            加密GPS
-            </summary>
-            <param name="latitude">纬度</param>
-            <param name="longitude">经度</param>
-            <returns></returns>
-        </member>
-        <member name="M:GeoCode.GpsCood.GpsOffset.EncryptPoint(System.Double,System.Double)">
-            <summary>
-            加密GPS
-            </summary>
-            <param name="latitude">纬度</param>
-            <param name="longitude">经度</param>
-            <returns></returns>
-        </member>
-        <member name="M:GeoCode.GpsCood.GpsOffset.OffsetPoint(System.Double,System.Double)">
-            <summary>
-            加密GSP偏移
-            </summary>
-            <param name="latitude"></param>
-            <param name="longitude"></param>
-            <returns></returns>
-        </member>
-        <member name="M:GeoCode.GpsCood.GpsOffset.OffsetPoint(System.Decimal,System.Decimal)">
-            <summary>
-            加密GSP偏移
-            </summary>
-            <param name="latitude"></param>
-            <param name="longitude"></param>
-            <returns></returns>
-        </member>
         <member name="T:GeoCode.LoggerManager">
             <summary>
             日志类
@@ -517,12 +422,7 @@
             <param name="parameters">参数名，将所有参数使用逗号分隔</param>
             <param name="arges">需要记录的参数</param>
         </member>
-        <member name="T:GeoCode.Tool.UsedDataManager">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:GeoCode.Tool.UsedDataManager.SetUseCount(System.String,System.Int32,System.Boolean)">
+        <member name="M:GeoCode.Tool.UsedDataManager.SetUseCount(System.String,System.Int32)">
             <summary>
             设置用户使用次数
             </summary>
@@ -569,21 +469,6 @@
         <member name="P:GeoCode.Tool.UsedDataManager.IsNewDay">
             <summary>
             是否为新的一天
-            </summary>
-        </member>
-        <member name="T:GeoCode.Tool.UsedDataManager.KeyUserInfo">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:GeoCode.Tool.UsedDataManager.KeyUserInfo.UsedCount">
-            <summary>
-            使用次数
-            </summary>
-        </member>
-        <member name="P:GeoCode.Tool.UsedDataManager.KeyUserInfo.Able">
-            <summary>
-            是否可用
             </summary>
         </member>
         <member name="M:GeoCode.GeoCodeXmlHelper.#ctor">

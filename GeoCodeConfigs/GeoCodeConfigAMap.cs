@@ -57,10 +57,11 @@ namespace GeoCode
         /// <returns>解析结果对象</returns>
         public AddressResult ResultFormat(string address)
         {
-            LocationResult result = JsonConvert.DeserializeObject<LocationResult>(address);
+
             AddressResult addressResult = new AddressResult();
             try
             {
+                LocationResult result = JsonConvert.DeserializeObject<LocationResult>(address);
                 if (CheckResult(result))
                 {
                     addressResult.Success = true;
@@ -72,6 +73,17 @@ namespace GeoCode
                     addressResult.District = result.regeocode.addressComponent.district.ToString();
                     addressResult.Province = result.regeocode.addressComponent.province.ToString();
                     addressResult.Towncode = result.regeocode.addressComponent.towncode.ToString();
+                }
+            }
+            catch (FullScreen.Newtonsoft.Json.JsonReaderException ex)
+            {
+                BaseLocationResult result = JsonConvert.DeserializeObject<BaseLocationResult>(address);
+                if (CheckResult(result))
+                {
+                    addressResult.Success = true;
+                    addressResult.ResultCode = result.infocode;
+                    addressResult.Message = result.info;
+                    addressResult.Address = result.regeocode.formatted_address;               
                 }
             }
             catch (Exception ex)
@@ -95,6 +107,27 @@ namespace GeoCode
         }
 
         private bool CheckResult(LocationResult result)
+        {
+            if (result.infocode == "10003")
+            {
+                if (KeyUsedOver != null)
+                {
+                    KeyUsedOver();
+                }
+                return false;
+            }
+            else if (result.infocode == "10004")
+            {
+                if (KeyOneSecondUsedOver != null)
+                {
+                    KeyOneSecondUsedOver();
+                }
+                return false;
+            }
+            return true;
+        }
+
+        public bool CheckResult(BaseLocationResult result)
         {
             if (result.infocode == "10003")
             {
@@ -145,6 +178,19 @@ namespace GeoCode
         /// </summary>
         public event Action KeyOneSecondUsedOver;
 
+        public class BaseLocationResult
+        {
+            public int status { get; set; }
+            public string info { get; set; }
+            public string infocode { get; set; }
+            public BaseRegeocodeEntity regeocode { get; set; }
+        }
+
+        public class BaseRegeocodeEntity
+        {
+            public string formatted_address { get; set; }
+        }
+
         public class LocationResult
         {
             public int status { get; set; }
@@ -153,9 +199,8 @@ namespace GeoCode
             public RegeocodeEntity regeocode { get; set; }
         }
 
-        public class RegeocodeEntity
+        public class RegeocodeEntity : BaseRegeocodeEntity
         {
-            public string formatted_address { get; set; }
             public AddressComponent addressComponent { get; set; }
         }
 

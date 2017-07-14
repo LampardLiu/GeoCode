@@ -153,6 +153,57 @@
             <returns>解析结果</returns>
             <exception cref="!:Exception，解析失败返回异常"></exception>
         </member>
+        <member name="M:GeoCode.GeoCode.Gecode(System.String,System.String,GeoCode.MapType)">
+            <summary>
+            经纬度转地址
+            </summary>
+            <param name="lat">维度</param>
+            <param name="lng">精度</param>
+            <param name="mapType">
+            <para>地图类型</para>
+            <para>AMap:高德地图</para>
+            <para>QQMap:腾讯地图</para>
+            </param>       
+            <returns></returns>
+        </member>
+        <member name="M:GeoCode.GeoCode.Gecode(System.String,GeoCode.MapType)">
+            <summary>
+            经纬度转地址
+            </summary>
+            <param name="lngAndLat">经纬度使用“,”连接</param>
+            <param name="mapType">
+            <para>地图类型</para>
+            <para>AMap:高德地图</para>
+            <para>QQMap:腾讯地图</para>
+            </param>       
+            <returns></returns>
+        </member>
+        <member name="M:GeoCode.GeoCode.Gecodes(System.Collections.Generic.Dictionary{System.String,System.String},GeoCode.MapType)">
+            <summary>
+            批量解析地址（实质是循环解析，返回结果，比较耗时）
+            </summary>
+            <param name="keyAndLngLat">key和lanlat，lng和lat之间使用英文逗号分隔</param>
+            <param name="mapType">
+            <para>地图类型</para>
+            <para>AMap:高德地图</para>
+            <para>QQMap:腾讯地图</para>
+            </param>       
+            <returns>解析结果</returns>
+            <exception cref="!:Exception，解析失败返回异常"></exception>
+        </member>
+        <member name="M:GeoCode.GeoCode.Gecodes(System.Collections.Generic.Dictionary{System.String,System.String[]},GeoCode.MapType)">
+            <summary>
+            批量解析地址（实质是循环解析，返回结果，比较耗时）
+            </summary>
+            <param name="keyAndLngLat">key和lanlat，lng lat数组</param>
+            <param name="mapType">
+            <para>地图类型</para>
+            <para>AMap:高德地图</para>
+            <para>QQMap:腾讯地图</para>
+            </param>       
+            <returns>解析结果</returns>
+            <exception cref="!:Exception，解析失败返回异常"></exception>
+        </member>
         <member name="F:GeoCode.MapType.AMap">
             <summary>
             高德地图
